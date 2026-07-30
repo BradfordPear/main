@@ -1,0 +1,18 @@
+{
+  "id": "_test",
+  "label": "Test Deck",
+  "emoji": "🧪",
+  "description": "A tiny 10-item deck for wiring up and smoke-testing the game loop.",
+  "items": [
+    { "id": "t1", "name": "The Godfather", "tier": 1, "tags": ["crime", "70s"], "year": 1972, "note": "The one every list is contractually obligated to include." },
+    { "id": "t2", "name": "Spirited Away", "tier": 1, "tags": ["anime", "fantasy"], "year": 2001, "note": null },
+    { "id": "t3", "name": "Mad Max: Fury Road", "tier": 2, "tags": ["action", "2010s"], "year": 2015, "note": "A two-hour car chase and a masterpiece." },
+    { "id": "t4", "name": "The Matrix", "tier": 2, "tags": ["sci-fi", "90s"], "year": 1999, "note": null },
+    { "id": "t5", "name": "Donnie Darko", "tier": 3, "tags": ["cult", "2000s"], "year": 2001, "note": "You either get it or you pretend to." },
+    { "id": "t6", "name": "The Boondock Saints", "tier": 3, "tags": ["cult", "crime"], "year": 1999, "note": "Beloved by exactly one type of guy." },
+    { "id": "t7", "name": "The Room", "tier": 4, "tags": ["so-bad", "cult"], "year": 2003, "note": "Oh hi Mark." },
+    { "id": "t8", "name": "Morbius", "tier": 4, "tags": ["superhero", "meme"], "year": 2022, "note": "It's Morbin' time." },
+    { "id": "t9", "name": "Pulp Fiction", "tier": 1, "tags": ["crime", "90s"], "year": 1994, "note": null },
+    { "id": "t10", "name": "Cats", "tier": 4, "tags": ["musical", "cursed"], "year": 2019, "note": "Digital fur technology." }
+  ]
+}
