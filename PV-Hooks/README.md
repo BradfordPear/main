@@ -12,6 +12,15 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 Python 3.11+. First `analyze` downloads the whisper base.en model (~75MB).
 
+## Web app (for a team, no installs per person)
+
+There is a browser version so editors never touch a terminal: an upload page
+that runs the same pipeline on a shared server. Run it locally with
+`streamlit run app.py`, or put it online for the team. Full step-by-step
+hosting guide (about an hour, one time) is in **DEPLOY.md**. It uses one shared
+data bank and one server-side AI key; access is gated by a shared team
+password (`HOOKS_PASSWORD`).
+
 ## The 5 commands
 
 ```

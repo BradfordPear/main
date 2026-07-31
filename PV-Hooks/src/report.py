@@ -5,14 +5,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-def write_report(reports_dir, kind, body):
+def write_report(reports_dir, kind, body, echo=True):
     reports_dir = Path(reports_dir)
     reports_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     path = reports_dir / f"{stamp}_{kind}.md"
     path.write_text(body)
-    print(body)
-    print(f"\n[report written to {path}]")
+    if echo:
+        print(body)
+        print(f"\n[report written to {path}]")
     return path
 
 

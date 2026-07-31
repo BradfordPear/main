@@ -1,0 +1,19 @@
+# One-click-ish Render setup. In Render, "New > Blueprint" and point it at
+# this repo; Render reads this file. Then set the two secret values (the
+# Anthropic key and the team password) in the dashboard when prompted.
+services:
+  - type: web
+    name: pv-hooks
+    runtime: docker
+    dockerfilePath: ./PV-Hooks/Dockerfile
+    dockerContext: ./PV-Hooks
+    plan: starter          # ~$7/mo, always on. Free plan sleeps and has no disk.
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false        # you paste this secret in the dashboard
+      - key: HOOKS_PASSWORD
+        sync: false        # the shared team password
+    disk:
+      name: pv-hooks-data
+      mountPath: /app/data # keeps the shared bank + reports across redeploys
+      sizeGB: 5
