@@ -1,0 +1,41 @@
+{
+  "id": "front-range-hikes",
+  "label": "Front Range Hikes",
+  "emoji": "🥾",
+  "description": "30 Colorado hikes — from alpine cathedrals to flat 'is this even a hike' walks.",
+  "items": [
+    { "id": "fh-royalarch", "name": "Royal Arch", "tier": 1, "tags": ["boulder", "chautauqua", "iconic"], "year": null, "note": "A steep grind under the Flatirons to a giant stone arch. Boulder's rite of passage." },
+    { "id": "fh-sanitas", "name": "Mount Sanitas", "tier": 1, "tags": ["boulder", "iconic", "loop"], "year": null, "note": "A lung-busting loop right off the edge of Boulder. Everyone's local benchmark." },
+    { "id": "fh-chautauqua", "name": "Chautauqua Flatirons Loop", "tier": 1, "tags": ["boulder", "iconic", "flatirons"], "year": null, "note": "The postcard. The Flatirons rising straight out of the meadow." },
+    { "id": "fh-skypond", "name": "Sky Pond", "tier": 1, "tags": ["rmnp", "alpine", "iconic"], "year": null, "note": "Past a waterfall you have to scramble up, to a lake ringed by spires. Worth every step." },
+    { "id": "fh-hanginglake", "name": "Hanging Lake", "tier": 1, "tags": ["glenwood", "iconic", "permit"], "year": null, "note": "A turquoise, travertine-fed lake so fragile you need a permit. Unreal in person." },
+    { "id": "fh-manitouincline", "name": "The Manitou Incline", "tier": 1, "tags": ["manitou", "iconic", "brutal"], "year": null, "note": "2,700 steps, 2,000 feet up, in under a mile. A stairmaster designed by a villain." },
+    { "id": "fh-emeraldlake", "name": "Emerald Lake", "tier": 1, "tags": ["rmnp", "alpine", "family"], "year": null, "note": "Three gorgeous lakes on the way to a fourth. The most beloved easy hike in RMNP." },
+    { "id": "fh-bierstadt", "name": "Mount Bierstadt", "tier": 1, "tags": ["14er", "beginner"], "year": null, "note": "The 14er everyone climbs first. Bag a peak, then brag about it forever." },
+
+    { "id": "fh-bearpeak", "name": "Bear Peak", "tier": 2, "tags": ["boulder", "summit"], "year": null, "note": null },
+    { "id": "fh-greenmtn", "name": "Green Mountain (Boulder)", "tier": 2, "tags": ["boulder", "summit"], "year": null, "note": null },
+    { "id": "fh-mountfalcon", "name": "Mount Falcon", "tier": 2, "tags": ["morrison", "loop", "views"], "year": null, "note": null },
+    { "id": "fh-devilshead", "name": "Devil's Head Lookout", "tier": 2, "tags": ["sedalia", "fire-lookout"], "year": null, "note": "Climb a staircase to a working fire lookout with a 100-mile view." },
+    { "id": "fh-stmarys", "name": "Saint Mary's Glacier", "tier": 2, "tags": ["idaho-springs", "alpine", "snow"], "year": null, "note": "A short hike to a lake and a permanent snowfield. Bring a sled, unironically." },
+    { "id": "fh-chiefmtn", "name": "Chief Mountain", "tier": 2, "tags": ["idaho-springs", "summit"], "year": null, "note": "The biggest view-to-effort ratio on the Front Range." },
+    { "id": "fh-hermangulch", "name": "Herman Gulch", "tier": 2, "tags": ["i-70", "wildflowers", "alpine"], "year": null, "note": "Wildflowers in July, a lake at the top, and it's right off I-70." },
+    { "id": "fh-graystorreys", "name": "Grays and Torreys Peaks", "tier": 2, "tags": ["14er", "double"], "year": null, "note": "Two 14ers in one day. Overachiever energy." },
+    { "id": "fh-maxwellfalls", "name": "Maxwell Falls", "tier": 2, "tags": ["evergreen", "waterfall"], "year": null, "note": null },
+    { "id": "fh-galbraith", "name": "Mount Galbraith", "tier": 2, "tags": ["golden", "loop"], "year": null, "note": null },
+    { "id": "fh-lairothebear", "name": "Lair o' the Bear", "tier": 2, "tags": ["idledale", "creek", "family"], "year": null, "note": null },
+
+    { "id": "fh-longspeak", "name": "Longs Peak (Keyhole Route)", "tier": 3, "tags": ["14er", "grueling", "exposed"], "year": null, "note": "A 15-hour, pre-dawn, occasionally terrifying epic. Type-two fun at its finest." },
+    { "id": "fh-quandary", "name": "Quandary Peak", "tier": 3, "tags": ["14er", "crowded", "divisive"], "year": null, "note": "A great 14er that everyone and their mountain goat also picked today." },
+    { "id": "fh-blueskysummit", "name": "Mount Blue Sky (Mount Evans) Summit Lake", "tier": 3, "tags": ["alpine", "divisive"], "year": null, "note": "You can drive most of the way up, which purists find deeply offensive." },
+    { "id": "fh-southtable", "name": "South Table Mountain", "tier": 3, "tags": ["golden", "mesa", "divisive"], "year": null, "note": null },
+    { "id": "fh-carpenterpeak", "name": "Carpenter Peak", "tier": 3, "tags": ["roxborough", "summit"], "year": null, "note": null },
+    { "id": "fh-deercreek", "name": "Deer Creek Canyon", "tier": 3, "tags": ["littleton", "loop", "divisive"], "year": null, "note": null },
+    { "id": "fh-apextrail", "name": "Apex Trail", "tier": 3, "tags": ["golden", "shared", "divisive"], "year": null, "note": "Great trail, if you enjoy leaping out of the way of mountain bikers on odd days." },
+
+    { "id": "fh-redrocksstairs", "name": "Red Rocks Amphitheatre Stairs", "tier": 4, "tags": ["morrison", "chaos", "workout"], "year": null, "note": "Not a hike. It's fitness bros doing bear crawls up the seats at 6am. Chaos." },
+    { "id": "fh-washpark", "name": "Washington Park Loop", "tier": 4, "tags": ["denver", "flat", "chaos"], "year": null, "note": "A pancake-flat city loop past two lakes. Calling it a 'hike' starts fights." },
+    { "id": "fh-cherrycreek", "name": "Cherry Creek Regional Trail", "tier": 4, "tags": ["denver", "paved", "chaos"], "year": null, "note": "It's a paved bike path. You are not hiking. You are commuting with snacks." },
+    { "id": "fh-sloanslake", "name": "Sloan's Lake Loop", "tier": 4, "tags": ["denver", "flat", "chaos"], "year": null, "note": "Great skyline views, zero elevation gain, one very confident 'hiker.'" }
+  ]
+}

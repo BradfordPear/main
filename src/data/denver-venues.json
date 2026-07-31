@@ -1,0 +1,36 @@
+{
+  "id": "denver-venues",
+  "label": "Denver Music Venues",
+  "emoji": "🎸",
+  "description": "25 Front Range stages — from Red Rocks to sweaty basement shows.",
+  "items": [
+    { "id": "dv-redrocks", "name": "Red Rocks Amphitheatre", "tier": 1, "tags": ["iconic", "morrison", "outdoor"], "year": null, "note": "Two 300-foot sandstone monoliths and the best acoustics on Earth. Non-negotiable canon." },
+    { "id": "dv-bluebird", "name": "The Bluebird Theater", "tier": 1, "tags": ["colfax", "historic"], "year": null, "note": "A restored 1913 movie house and the beating heart of Colfax live music." },
+    { "id": "dv-ogden", "name": "Ogden Theatre", "tier": 1, "tags": ["colfax", "historic"], "year": null, "note": null },
+    { "id": "dv-mission", "name": "Mission Ballroom", "tier": 1, "tags": ["rino", "modern"], "year": null, "note": "The newest big room, with a movable floor so every show fits." },
+    { "id": "dv-fillmore", "name": "Fillmore Auditorium", "tier": 1, "tags": ["cap-hill", "historic"], "year": null, "note": null },
+    { "id": "dv-paramount", "name": "Paramount Theatre", "tier": 1, "tags": ["downtown", "historic"], "year": null, "note": null },
+
+    { "id": "dv-gothic", "name": "Gothic Theatre", "tier": 2, "tags": ["englewood", "historic"], "year": null, "note": null },
+    { "id": "dv-larimer", "name": "Larimer Lounge", "tier": 2, "tags": ["rino", "small"], "year": null, "note": "Where the band you love now played to 40 people three years ago." },
+    { "id": "dv-hidive", "name": "Hi-Dive", "tier": 2, "tags": ["baker", "small", "dive"], "year": null, "note": "South Broadway's sweaty little indie institution." },
+    { "id": "dv-cervantes", "name": "Cervantes' Masterpiece Ballroom", "tier": 2, "tags": ["five-points", "historic"], "year": null, "note": null },
+    { "id": "dv-marquis", "name": "Marquis Theater", "tier": 2, "tags": ["downtown", "small"], "year": null, "note": null },
+    { "id": "dv-summit", "name": "Summit Music Hall", "tier": 2, "tags": ["downtown", "metal"], "year": null, "note": null },
+    { "id": "dv-globehall", "name": "Globe Hall", "tier": 2, "tags": ["globeville", "bbq"], "year": null, "note": "Live music and a smoker out back. What more do you want." },
+    { "id": "dv-levitt", "name": "Levitt Pavilion Denver", "tier": 2, "tags": ["ruby-hill", "outdoor", "free"], "year": null, "note": "Free outdoor shows all summer. Genuinely." },
+    { "id": "dv-ballarena", "name": "Ball Arena", "tier": 2, "tags": ["downtown", "arena", "big"], "year": null, "note": "Where the enormo-tours land. Great if you like your artist as a distant ant." },
+
+    { "id": "dv-lionslair", "name": "Lion's Lair", "tier": 3, "tags": ["colfax", "dive", "cult"], "year": null, "note": "A tiny, gloriously grimy Colfax rock dive. You'll leave sticky and happy." },
+    { "id": "dv-hermans", "name": "Herman's Hideaway", "tier": 3, "tags": ["south-broadway", "cult"], "year": null, "note": null },
+    { "id": "dv-skylark", "name": "Skylark Lounge", "tier": 3, "tags": ["baker", "dive", "cult"], "year": null, "note": "Rockabilly, a photo booth, and a pool table upstairs." },
+    { "id": "dv-lostlake", "name": "Lost Lake Lounge", "tier": 3, "tags": ["colfax", "small", "cult"], "year": null, "note": null },
+    { "id": "dv-yourmoms", "name": "Your Mom's House", "tier": 3, "tags": ["divisive", "small", "diy"], "year": null, "note": null },
+    { "id": "dv-seventhcircle", "name": "Seventh Circle Music Collective", "tier": 3, "tags": ["diy", "all-ages", "cult"], "year": null, "note": "Volunteer-run, all-ages, donation-based. The real underground." },
+
+    { "id": "dv-grizzlyrose", "name": "The Grizzly Rose", "tier": 4, "tags": ["country", "chaos", "honky-tonk"], "year": null, "note": "A mechanical bull, a giant dance floor, and line dancing you did not consent to." },
+    { "id": "dv-coyoteugly", "name": "Coyote Ugly Denver", "tier": 4, "tags": ["market-st", "chaos", "party"], "year": null, "note": "Yes, they dance on the bar. Yes, it is exactly like the movie." },
+    { "id": "dv-stampede", "name": "Stampede", "tier": 4, "tags": ["aurora", "country", "chaos"], "year": null, "note": "A country mega-club the size of a small airport." },
+    { "id": "dv-temple", "name": "Temple Denver", "tier": 4, "tags": ["edm", "nightclub", "chaos"], "year": null, "note": "Bottle service, lasers, and bass you feel in your teeth." }
+  ]
+}

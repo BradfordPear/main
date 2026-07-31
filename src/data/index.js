@@ -3,15 +3,31 @@
 // in this folder (same schema) and register it here. See README.md.
 
 import testDeck from './_test.json'
-// Real category files are added below once the database is built.
+import movies from './movies.json'
+import albums from './albums.json'
+import videogames from './videogames.json'
+import tvshows from './tvshows.json'
+import anime from './anime.json'
+import denverBars from './denver-bars.json'
+import denverVenues from './denver-venues.json'
+import denverRestaurants from './denver-restaurants.json'
+import frontRangeHikes from './front-range-hikes.json'
 
 const RAW = [
+  movies,
+  albums,
+  videogames,
+  tvshows,
+  anime,
+  denverBars,
+  denverVenues,
+  denverRestaurants,
+  frontRangeHikes,
   testDeck, // kept last; hidden from the picker unless SHOW_TEST is on
 ]
 
 // Flip to true to expose the tiny smoke-test deck in the category picker.
-// TEMP: true during loop bring-up before the full database exists.
-const SHOW_TEST = true
+const SHOW_TEST = false
 
 export const CATEGORIES = RAW.filter((c) => SHOW_TEST || c.id !== '_test').map((c) => ({
   id: c.id,
