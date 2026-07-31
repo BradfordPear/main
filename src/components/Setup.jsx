@@ -15,7 +15,7 @@ const LENGTHS = [
   { label: 'Endless', value: Infinity },
 ]
 
-export default function Setup({ onStart, initialPlayers }) {
+export default function Setup({ onStart, initialPlayers, onHowToPlay }) {
   const [categoryId, setCategoryId] = useState(null)
   const [customMode, setCustomMode] = useState(false)
   const [customLabel, setCustomLabel] = useState('')
@@ -30,6 +30,7 @@ export default function Setup({ onStart, initialPlayers }) {
   const [totalRounds, setTotalRounds] = useState(10)
   const [timerEnabled, setTimerEnabled] = useState(true)
   const [chaosMode, setChaosMode] = useState(true)
+  const [chadMode, setChadMode] = useState(false)
 
   const builtins = CATEGORIES.filter((c) => !DENVER_IDS.has(c.id))
   const denver = CATEGORIES.filter((c) => DENVER_IDS.has(c.id))
@@ -88,8 +89,9 @@ export default function Setup({ onStart, initialPlayers }) {
       totalRounds,
       timerEnabled,
       timerSeconds: 75,
-      silenceSeconds: 7,
-      chaosMode,
+      silenceSeconds: 10,
+      chaosMode: chadMode ? false : chaosMode,
+      chadMode,
     }
     onStart(config, category.items)
   }
@@ -100,6 +102,10 @@ export default function Setup({ onStart, initialPlayers }) {
         Dethrone
         <small>the throne is a lie · defend it anyway</small>
       </div>
+
+      <button className="btn ghost block" style={{ marginTop: 12 }} onClick={onHowToPlay}>
+        📖 How to play
+      </button>
 
       <div className="section-title">Category</div>
       <div className="cat-grid">
@@ -232,10 +238,26 @@ export default function Setup({ onStart, initialPlayers }) {
           onChange={() => setTimerEnabled((v) => !v)}
         />
         <Toggle
+          label="Chad mode 💪"
+          sub={
+            chadMode
+              ? "Crowd-pleasers only — big, everyone's-seen-it picks. No obscure curveballs."
+              : 'Off — the game escalates into cult and obscure picks'
+          }
+          on={chadMode}
+          onChange={() => setChadMode((v) => !v)}
+        />
+        <Toggle
           label="Chaos mode"
-          sub={chaosMode ? 'Absurd Tier-4 curveballs appear late game' : 'Serious business only'}
-          on={chaosMode}
-          onChange={() => setChaosMode((v) => !v)}
+          sub={
+            chadMode
+              ? 'Disabled while Chad mode is on'
+              : chaosMode
+                ? 'Absurd Tier-4 curveballs appear late game'
+                : 'Serious business only'
+          }
+          on={chaosMode && !chadMode}
+          onChange={() => !chadMode && setChaosMode((v) => !v)}
         />
       </div>
 

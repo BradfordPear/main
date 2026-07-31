@@ -1,7 +1,8 @@
-import { useReducer, useState, useEffect } from 'react'
+import { useReducer, useState, useEffect, useRef } from 'react'
 import { reducer, initialState } from './game/machine.js'
 import { useSound } from './hooks/useSound.js'
 import Setup from './components/Setup.jsx'
+import Rules from './components/Rules.jsx'
 import Reveal from './components/Reveal.jsx'
 import Objection from './components/Objection.jsx'
 import Debate from './components/Debate.jsx'
@@ -10,12 +11,22 @@ import Result from './components/Result.jsx'
 import End from './components/End.jsx'
 
 const MUTE_KEY = 'dethrone.muted'
+const RULES_KEY = 'dethrone.seenRules'
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [muted, setMuted] = useState(() => localStorage.getItem(MUTE_KEY) === '1')
   const [keepCrew, setKeepCrew] = useState(null)
+  // Show the how-to-play screen on first ever visit; reachable from setup after.
+  const [showRules, setShowRules] = useState(() => localStorage.getItem(RULES_KEY) !== '1')
+  const firstTimeRules = useRef(localStorage.getItem(RULES_KEY) !== '1')
   const sound = useSound(muted)
+
+  function closeRules() {
+    localStorage.setItem(RULES_KEY, '1')
+    firstTimeRules.current = false
+    setShowRules(false)
+  }
 
   useEffect(() => {
     localStorage.setItem(MUTE_KEY, muted ? '1' : '0')
@@ -54,7 +65,13 @@ export default function App() {
         )}
       </div>
 
-      {state.phase === 'setup' && <Setup onStart={startGame} initialPlayers={keepCrew} />}
+      {showRules && state.phase === 'setup' ? (
+        <Rules onClose={closeRules} firstTime={firstTimeRules.current} />
+      ) : (
+        state.phase === 'setup' && (
+          <Setup onStart={startGame} initialPlayers={keepCrew} onHowToPlay={() => setShowRules(true)} />
+        )
+      )}
       {state.phase === 'reveal' && <Reveal state={state} dispatch={dispatch} sound={sound} />}
       {state.phase === 'objection' && <Objection state={state} dispatch={dispatch} />}
       {state.phase === 'debate' && <Debate state={state} dispatch={dispatch} sound={sound} />}

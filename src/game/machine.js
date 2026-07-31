@@ -40,6 +40,7 @@ function advanceToNextChallenger(state) {
     round: nextRound,
     championId: state.champion?.id,
     chaosMode: state.config.chaosMode,
+    chadMode: state.config.chadMode,
   })
   if (!challenger) {
     // Deck exhausted — the champion survives by attrition.
@@ -73,6 +74,7 @@ export function reducer(state, action) {
         round,
         championId: champion.id,
         chaosMode: config.chaosMode,
+        chadMode: config.chadMode,
       })
       if (challenger) usedIds.add(challenger.id)
 

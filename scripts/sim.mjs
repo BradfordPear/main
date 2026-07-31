@@ -13,7 +13,7 @@ function makePool(n) {
   return items
 }
 
-function play(seedPlayers, totalRounds, chaosMode, timerEnabled) {
+function play(seedPlayers, totalRounds, chaosMode, timerEnabled, chadMode = false) {
   const pool = makePool(60)
   const config = {
     categoryId: 'sim',
@@ -22,8 +22,9 @@ function play(seedPlayers, totalRounds, chaosMode, timerEnabled) {
     totalRounds,
     timerEnabled,
     timerSeconds: 75,
-    silenceSeconds: 7,
+    silenceSeconds: 10,
     chaosMode,
+    chadMode,
   }
   let s = reducer(initialState, { type: 'START_GAME', config, pool })
 
@@ -86,9 +87,34 @@ for (let i = 0; i < 300; i++) {
   const players = Array.from({ length: n }, (_, k) => `P${k + 1}`)
   const lengths = [10, 15, 20]
   const total = lengths[Math.floor(Math.random() * lengths.length)]
-  play(players, total, Math.random() < 0.5, Math.random() < 0.5)
+  const chad = Math.random() < 0.4
+  play(players, total, Math.random() < 0.5, Math.random() < 0.5, chad)
   runs++
 }
 console.log(`OK — ${runs} random games completed, all invariants held.`)
+
+// Chad mode should never surface Tier 3/4 challengers when higher tiers remain.
+{
+  const pool = makePool(60)
+  let s = reducer(initialState, {
+    type: 'START_GAME',
+    config: {
+      categoryId: 'sim', categoryLabel: 'Sim',
+      players: [{ id: 'p0', name: 'A', score: 0 }, { id: 'p1', name: 'B', score: 0 }],
+      totalRounds: 20, timerEnabled: false, timerSeconds: 75, silenceSeconds: 10,
+      chaosMode: true, chadMode: true,
+    },
+    pool,
+  })
+  const tiers = new Set()
+  let guard = 0
+  while (s.phase !== 'end' && guard++ < 100) {
+    if (s.challenger) tiers.add(s.challenger.tier)
+    s = reducer(s, { type: 'DISMISS_CHALLENGER' })
+  }
+  const obscure = [...tiers].filter((t) => t >= 3)
+  if (obscure.length) throw new Error('Chad mode surfaced obscure tiers: ' + obscure)
+  console.log('Chad mode: only tiers', [...tiers].sort().join(','), '(no 3/4) ✓')
+}
 const sample = play(['Alice', 'Bob', 'Cara'], 15, true, true)
 console.log('sample:', JSON.stringify(sample))

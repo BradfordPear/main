@@ -21,7 +21,14 @@ export const TIER_META = {
 export const WILDCARD_INTERVAL = 6
 
 // Weight tables keyed by tier. Values are relative weights, not percentages.
-function weightsForRound(round) {
+function weightsForRound(round, chadMode) {
+  if (chadMode) {
+    // Chad Mode — crowd-pleasers only. Every challenger is a big, widely-seen
+    // pick (Canon + Strong), so the room actually knows both items and objects.
+    // No cult/divisive (T3) or obscure/chaos (T4) picks at all.
+    if (round <= 3) return { 1: 70, 2: 30, 3: 0, 4: 0 }
+    return { 1: 45, 2: 55, 3: 0, 4: 0 }
+  }
   if (round <= 3) return { 1: 80, 2: 20, 3: 0, 4: 0 }
   if (round <= 7) return { 1: 40, 2: 40, 3: 20, 4: 0 }
   return { 1: 20, 2: 35, 3: 30, 4: 15 }
@@ -66,18 +73,29 @@ export function drawOpeningChampion(pool, usedIds, rng = Math.random) {
 }
 
 // Draw the next challenger given the current round, champion and mode toggles.
-export function drawChallenger(pool, usedIds, { round, championId, chaosMode }, rng = Math.random) {
+export function drawChallenger(
+  pool,
+  usedIds,
+  { round, championId, chaosMode, chadMode = false },
+  rng = Math.random
+) {
   const byTier = availableByTier(pool, usedIds, championId)
   const wildcard = isWildcardRound(round)
 
   // Build the effective weight table for this round.
   let weights
   if (wildcard) {
-    // Wildcard guarantees a spicy pull: Tier 3, plus Tier 4 when chaos is on.
-    weights = { 1: 0, 2: 0, 3: 60, 4: chaosMode ? 40 : 0 }
+    if (chadMode) {
+      // Chad Mode wildcards stay mainstream — a strong, everyone's-seen-it
+      // challenger rather than an obscure curveball.
+      weights = { 1: 30, 2: 70, 3: 0, 4: 0 }
+    } else {
+      // Wildcard guarantees a spicy pull: Tier 3, plus Tier 4 when chaos is on.
+      weights = { 1: 0, 2: 0, 3: 60, 4: chaosMode ? 40 : 0 }
+    }
   } else {
-    weights = { ...weightsForRound(round) }
-    if (!chaosMode) weights[4] = 0
+    weights = { ...weightsForRound(round, chadMode) }
+    if (!chaosMode || chadMode) weights[4] = 0
   }
 
   // Zero-out tiers that have no remaining items so weighting stays honest.
@@ -89,7 +107,8 @@ export function drawChallenger(pool, usedIds, { round, championId, chaosMode }, 
 
   // Fallbacks: if the chosen tier / whole table is empty, widen the search.
   if (tier == null || !byTier[tier].length) {
-    const fallbackOrder = wildcard ? [3, 4, 2, 1] : [2, 1, 3, 4]
+    // Chad Mode always falls back toward well-known picks first.
+    const fallbackOrder = chadMode ? [2, 1, 3, 4] : wildcard ? [3, 4, 2, 1] : [2, 1, 3, 4]
     tier = fallbackOrder.find((t) => byTier[t].length) ?? null
   }
   if (tier == null) return null // deck exhausted

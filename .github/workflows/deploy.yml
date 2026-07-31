@@ -2,7 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # GitHub Pages only deploys from the repo's default branch. This repo's
+    # default branch is the development branch below; `main` is kept for when
+    # it is promoted to default.
+    branches: [main, claude/dethrone-party-game-6tewdr]
   workflow_dispatch:
 
 permissions:
