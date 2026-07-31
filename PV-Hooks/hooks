@@ -1,0 +1,183 @@
+#!/usr/bin/env python3
+"""hooks: deconstruct the first 3 seconds of PV/WP paid social videos,
+grounded in our own account data.
+
+Commands:
+  hooks analyze <video> [--competitor] [--archetype ID] [--funnel F]
+                        [--avatar NAME] [--product NAME] [--model M]
+  hooks ingest
+  hooks patterns [--days 90] [--model M]
+  hooks calibrate
+  hooks bank [--top 20]
+"""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "src"))
+
+DATA = ROOT / "data"
+DB_PATH = DATA / "bank.db"
+VIDEOS_DIR = DATA / "videos"
+REPORTS_DIR = DATA / "reports"
+DROP_DIR = DATA / "motion_drop"
+PREDICTIONS = DATA / "predictions.jsonl"
+RUBRIC_DIR = ROOT / "rubric"
+
+DEFAULT_MODEL = "claude-sonnet-4-6"
+
+
+def cmd_analyze(args):
+    import bank as bankmod
+    import ingest_video
+    import autopsy
+    import report
+    from nameparse import parse_name
+
+    print(f"Ingesting {args.video} ...", file=sys.stderr)
+    fp = ingest_video.ingest(args.video, VIDEOS_DIR)
+    if fp.get("cached"):
+        print("Using cached fingerprint.", file=sys.stderr)
+
+    # Context from flags first, parsed filename as fallback.
+    parsed = parse_name(Path(args.video).stem)
+    context = {
+        "product": args.product or parsed["product"],
+        "funnel": args.funnel or parsed["funnel"],
+        "avatar": args.avatar or parsed["avatar"],
+        "competitor": bool(args.competitor),
+    }
+    ad_name = None if args.competitor else Path(args.video).stem
+
+    conn = bankmod.connect(DB_PATH)
+    bank_ctx = bankmod.bank_context(
+        conn, archetype=args.archetype, avatar=context["avatar"],
+        product=context["product"])
+
+    print("Calling model for autopsy ...", file=sys.stderr)
+    result = autopsy.run_autopsy(
+        fp, bank_ctx, context, competitor=args.competitor,
+        archetype=args.archetype, model=args.model)
+
+    if not args.competitor:
+        autopsy.log_prediction(PREDICTIONS, fp, result, ad_name=ad_name)
+        # Link the fingerprint back onto any matching bank row.
+        hook_words = fp.get("transcript_0_3", {}).get("words", [])
+        hook_text = " ".join(w["w"] for w in hook_words)
+        if ad_name:
+            bankmod.link_fingerprint(
+                conn, ad_name, hook_text, fp.get("first_cut"),
+                result.get("archetype"),
+                str(Path(fp["file"]["stored_path"]).parent / "fingerprint.json"))
+            conn.commit()
+
+    # Keep the raw JSON next to the fingerprint for later inspection.
+    out_json = Path(fp["file"]["stored_path"]).parent / "autopsy.json"
+    out_json.write_text(json.dumps(result, indent=2))
+
+    body = report.render_autopsy(result, fp["file"]["name"], context,
+                                 competitor=args.competitor)
+    report.write_report(REPORTS_DIR, "autopsy", body)
+
+
+def cmd_ingest(_args):
+    import bank as bankmod
+    import ingest_motion
+    import report
+
+    conn = bankmod.connect(DB_PATH)
+    summary = ingest_motion.ingest_drop(conn, DROP_DIR)
+    report.write_report(REPORTS_DIR, "ingest", report.render_ingest(summary))
+
+
+def cmd_patterns(args):
+    import bank as bankmod
+    import autopsy
+    import report
+
+    conn = bankmod.connect(DB_PATH)
+    stats = bankmod.bank_stats(conn)
+    aggregate = bankmod.patterns_aggregate(conn, days=args.days)
+    fatigue = bankmod.fatigue_buckets(conn, days=args.days)
+
+    findings = None
+    if aggregate:
+        print("Calling model for synthesis ...", file=sys.stderr)
+        findings = autopsy.synthesize_patterns(
+            aggregate, fatigue, stats, args.days, model=args.model)
+    else:
+        findings = ("Bank is empty for this window. Nothing to synthesize; "
+                    "run `hooks ingest` first.")
+
+    body = report.render_patterns(aggregate, fatigue, stats, findings, args.days)
+    report.write_report(REPORTS_DIR, "patterns", body)
+
+
+def cmd_calibrate(_args):
+    import bank as bankmod
+    import calibrate as calmod
+    import report
+
+    conn = bankmod.connect(DB_PATH)
+    result = calmod.calibrate(conn, PREDICTIONS)
+    report.write_report(REPORTS_DIR, "calibrate", report.render_calibrate(result))
+
+
+def cmd_bank(args):
+    import bank as bankmod
+    import report
+
+    conn = bankmod.connect(DB_PATH)
+    rows = bankmod.top_hooks(conn, top=args.top)
+    stats = bankmod.bank_stats(conn)
+    report.write_report(REPORTS_DIR, "bank", report.render_bank(rows, stats))
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog="hooks",
+        description="First-3-seconds autopsies for PV/WP paid social video.")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p = sub.add_parser("analyze", help="autopsy one video")
+    p.add_argument("video")
+    p.add_argument("--competitor", action="store_true",
+                   help="competitor mode: no performance join, no prediction")
+    p.add_argument("--archetype", choices=[
+        "talking_head_ugc", "screen_record", "broll_vo", "text_card",
+        "founder_location", "podcast_interview"],
+        help="pre-select the archetype instead of letting the model classify")
+    p.add_argument("--funnel", choices=["TOF", "MOF", "BOF"])
+    p.add_argument("--avatar")
+    p.add_argument("--product")
+    p.add_argument("--model", default=DEFAULT_MODEL)
+    p.set_defaults(func=cmd_analyze)
+
+    p = sub.add_parser("ingest", help="parse everything new in data/motion_drop/")
+    p.set_defaults(func=cmd_ingest)
+
+    p = sub.add_parser("patterns", help="bank synthesis: what wins, fatigue")
+    p.add_argument("--days", type=int, default=90)
+    p.add_argument("--model", default=DEFAULT_MODEL)
+    p.set_defaults(func=cmd_patterns)
+
+    p = sub.add_parser("calibrate", help="prediction hit-rate report")
+    p.set_defaults(func=cmd_calibrate)
+
+    p = sub.add_parser("bank", help="print ranked hook bank")
+    p.add_argument("--top", type=int, default=20)
+    p.set_defaults(func=cmd_bank)
+
+    args = parser.parse_args()
+    try:
+        args.func(args)
+    except RuntimeError as e:
+        print(f"error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

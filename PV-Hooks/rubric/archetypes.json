@@ -1,0 +1,26 @@
+{
+  "talking_head_ugc": {
+    "label": "Talking head / UGC",
+    "needs": "A face and voice that read as a real person, a spoken line that earns the next second, eye contact or motion before 1.5s. Polish optional; a stiff read is the failure mode."
+  },
+  "screen_record": {
+    "label": "Screen record / notes app",
+    "needs": "The text IS the hook. Legibility at feed size, typing or scrolling movement, and it must look like a real screenshot, not a designed graphic."
+  },
+  "broll_vo": {
+    "label": "B-roll + VO",
+    "needs": "First shot intrinsically watchable (food, hands, motion, texture); the VO line must attach a question or claim to it inside 3s."
+  },
+  "text_card": {
+    "label": "Text card open",
+    "needs": "One idea, readable in under 1 second, movement before 1.5s (card swap, zoom, reveal). Two ideas on one card is the failure mode."
+  },
+  "founder_location": {
+    "label": "Founder / on-location",
+    "needs": "Unpolished is correct. Place and person legible fast, a reason this person is credible inside the first line. Over-produced founder footage reads as an ad."
+  },
+  "podcast_interview": {
+    "label": "Podcast / interview clip",
+    "needs": "Mid-conversation energy, a clipped-in-progress line that implies a payoff, captions carrying the load with sound off."
+  }
+}

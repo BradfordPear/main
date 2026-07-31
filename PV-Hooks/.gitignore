@@ -1,0 +1,11 @@
+# local data: bank, video copies, fingerprints, reports, predictions
+data/bank.db
+data/videos/*
+!data/videos/.gitkeep
+data/reports/*
+!data/reports/.gitkeep
+data/motion_drop/*
+!data/motion_drop/.gitkeep
+data/predictions.jsonl
+__pycache__/
+*.pyc
